@@ -1,0 +1,348 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <b><caption> Sankalp's Dashboard</caption></b>
+    <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <style>
+        .container {
+        width: 100%;
+        border: 5px solid rgb(199, 118, 183);
+        border-radius: .5em;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        margin: 3em;
+        }
+
+        .item {
+         width: 100px;
+        height: 100px;
+        padding: 10px;
+        }
+        
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="item" id="pivot-table-container" data-url="{% url 'pivot_data' %}"></div>
+<div class="item" id="pivot-chart-container"></div>
+<div class="item" id="pivot-chart-container4"></div>
+</div>
+
+<div class="container">
+<div class="item" id="pivot-chart-container1"></div>
+<div class="item" id="pivot-chart-container2"></div>
+<div class="item" id="pivot-chart-container3"></div>
+<script>
+function processData(dataset) {
+    var result = []
+    dataset = JSON.parse(dataset);
+    dataset.forEach(item => result.push(item.fields));
+    return result;
+}
+$.ajax({
+    url: $("#pivot-table-container").attr("data-url"),
+    dataType: 'json',
+    success: function(data) {
+        new Flexmonster({
+            container: "#pivot-table-container",
+            componentFolder: "https://cdn.flexmonster.com/",
+            width: "50%",
+            height: 430,
+            toolbar: false,
+            report: {
+                dataSource: {
+                    type: "json",
+                    data: processData(data),
+                    mapping: {
+                        "product_category": {
+                            "caption": "Product Category"
+                        },
+                        "payment_method": {
+                            "caption": "Payment Method"
+                        },
+                        "shipping_cost": {
+                            "caption": "Shipping Cost",
+                            "type": "number"
+                        },
+                        "unit_price": {
+                            "caption": "Unit Price",
+                            "type": "number"
+                        }
+                    }
+                },
+                "slice": {
+                    "rows": [{
+                        "uniqueName": "product_category"
+                    }],
+                    "columns": [{
+                            "uniqueName": "payment_method"
+                        },
+                        {
+                            "uniqueName": "[Measures]"
+                        }
+                    ],
+                    "measures": [{
+                            "uniqueName": "shipping_cost",
+                            "aggregation": "sum"
+                        },
+                        {
+                            "uniqueName": "unit_price",
+                            "aggregation": "sum",
+                            "caption": "Sankalp's Chart-1"
+                        }
+                    ]
+                }
+            }
+        });
+        new Flexmonster({
+            container: "#pivot-chart-container",
+            componentFolder: "https://cdn.flexmonster.com/",
+            width: "50%",
+            height: 430,
+            //toolbar: true,
+            report: {
+                dataSource: {
+                    type: "json",
+                    data: processData(data),
+                    mapping: {
+                        "product_category": {
+                            "caption": "Product Category"
+                        },
+                        "payment_method": {
+                            "caption": "Payment Method"
+                        },
+                        "shipping_cost": {
+                            "caption": "Shipping Cost",
+                            "type": "number"
+                        },
+                        "unit_price": {
+                            "caption": "Unit Price",
+                            "type": "number"
+                        }
+                    }
+                },
+                "slice": {
+                    "rows": [{
+                        "uniqueName": "product_category"
+                    }],
+                    "columns": [{
+                        "uniqueName": "[Measures]"
+                    }],
+                    "measures": [{
+                        "uniqueName": "Price",
+                        "formula": "sum(\"shipping_cost\") + sum(\"unit_price\")",
+                        "caption": "Sankalp's Chart-2"
+                    }]
+                },
+                "options": {
+                    "viewType": "charts",
+                    "chart": {
+                        "type": "pie"
+                    }
+                }
+            }
+        });
+        new Flexmonster({
+            container: "#pivot-chart-container1",
+            componentFolder: "https://cdn.flexmonster.com/",
+            width: "50%",
+            height: 430,
+            //toolbar: true,
+            report: {
+                dataSource: {
+                    type: "json",
+                    data: processData(data),
+                    mapping: {
+                        "product_category": {
+                            "caption": "Product Category"
+                        },
+                        "payment_method": {
+                            "caption": "Payment Method"
+                        },
+                        "shipping_cost": {
+                            "caption": "Shipping Cost",
+                            "type": "number"
+                        },
+                        "unit_price": {
+                            "caption": "Unit Price",
+                            "type": "number"
+                        }
+                    }
+                },
+                "slice": {
+                    "rows": [{
+                        "uniqueName": "product_category"
+                    }],
+                    "columns": [{
+                        "uniqueName": "[Measures]"
+                    }],
+                    "measures": [{
+                        "uniqueName": "Price",
+                        "formula": "sum(\"shipping_cost\") + sum(\"unit_price\")",
+                        "caption": "Sankalp's Chart-4"
+                    }]
+                },
+                "options": {
+                    "viewType": "charts",
+                    "chart": {
+                        "type": "Bar"
+                    }
+                }
+            }
+        });
+        new Flexmonster({
+            container: "#pivot-chart-container2",
+            componentFolder: "https://cdn.flexmonster.com/",
+            width: "50%",
+            height: 430,
+            //toolbar: true,
+            report: {
+                dataSource: {
+                    type: "json",
+                    data: processData(data),
+                    mapping: {
+                        "product_category": {
+                            "caption": "Product Category"
+                        },
+                        "payment_method": {
+                            "caption": "Payment Method"
+                        },
+                        "shipping_cost": {
+                            "caption": "Shipping Cost",
+                            "type": "number"
+                        },
+                        "unit_price": {
+                            "caption": "Unit Price",
+                            "type": "number"
+                        }
+                    }
+                },
+                "slice": {
+                    "rows": [{
+                        "uniqueName": "product_category"
+                    }],
+                    "columns": [{
+                        "uniqueName": "[Measures]"
+                    }],
+                    "measures": [{
+                        "uniqueName": "Price",
+                        "formula": "sum(\"shipping_cost\") + sum(\"unit_price\")",
+                        "caption": "Sankalp's Chart-5"
+                    }]
+                },
+                "options": {
+                    "viewType": "charts",
+                    "chart": {
+                        "type": "bar_h"
+                    }
+                }
+            }
+        });
+        new Flexmonster({
+            container: "#pivot-chart-container3",
+            componentFolder: "https://cdn.flexmonster.com/",
+            width: "50%",
+            height: 430,
+            //toolbar: true,
+            report: {
+                dataSource: {
+                    type: "json",
+                    data: processData(data),
+                    mapping: {
+                        "product_category": {
+                            "caption": "Product Category"
+                        },
+                        "payment_method": {
+                            "caption": "Payment Method"
+                        },
+                        "shipping_cost": {
+                            "caption": "Shipping Cost",
+                            "type": "number"
+                        },
+                        "unit_price": {
+                            "caption": "Unit Price",
+                            "type": "number"
+                        }
+                    }
+                },
+                "slice": {
+                    "rows": [{
+                        "uniqueName": "product_category"
+                    }],
+                    "columns": [{
+                        "uniqueName": "[Measures]"
+                    }],
+                    "measures": [{
+                        "uniqueName": "Price",
+                        "formula": "sum(\"shipping_cost\") + sum(\"unit_price\")",
+                        "caption": "Sankalp's Chart-6"
+                    }]
+                },
+                "options": {
+                    "viewType": "charts",
+                    "chart": {
+                        "type": "line"
+                    }
+                }
+            }
+        });
+        new Flexmonster({
+            container: "#pivot-chart-container4",
+            componentFolder: "https://cdn.flexmonster.com/",
+            width: "50%",
+            height: 430,
+            //toolbar: true,
+            report: {
+                dataSource: {
+                    type: "json",
+                    data: processData(data),
+                    mapping: {
+                        "product_category": {
+                            "caption": "Product Category"
+                        },
+                        "payment_method": {
+                            "caption": "Payment Method"
+                        },
+                        "shipping_cost": {
+                            "caption": "Shipping Cost",
+                            "type": "number"
+                        },
+                        "unit_price": {
+                            "caption": "Unit Price",
+                            "type": "number"
+                        }
+                    }
+                },
+                "slice": {
+                    "rows": [{
+                        "uniqueName": "product_category"
+                    }],
+                    "columns": [{
+                        "uniqueName": "[Measures]"
+                    }],
+                    "measures": [{
+                        "uniqueName": "Price",
+                        "formula": "sum(\"shipping_cost\") + sum(\"unit_price\")",
+                        "caption": "Sankalp's Chart-3"
+                    }]
+                },
+                "options": {
+                    "viewType": "charts",
+                    "chart": {
+                        "type": "column_line"
+                    }
+                }
+            }
+        });
+    }
+});
+
+</script>
+</body>
+</html>
