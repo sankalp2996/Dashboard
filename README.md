@@ -11,6 +11,8 @@ Next, open the following URL in your browser:
 
 `http://127.0.0.1:8000/`
 
+# Database inbuilt: DB Browser SQLite
+
 # Final Output screenshot attached to the project files
 
 # Database screenshot attacehed for quick reference.
