@@ -9,7 +9,7 @@ To run the Django development server, execute the following command:
 
 Next, open the following URL in your browser:
 
-`http://127.0.0.1:8000/dashboard/`
+`http://127.0.0.1:8000/`
 
 # Final Output screenshot attached to the project files
 
